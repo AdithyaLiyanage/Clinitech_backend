@@ -1,7 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import userRoutes from "./routes/userRoutes";
+import userRoutes from "./routes/UserRoutes";
+import patientRoutes from "./routes/PatientRoutes";
 
 
 const app = express();
@@ -16,5 +17,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/patients", patientRoutes);
 
 export default app;
