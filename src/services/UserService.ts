@@ -1,49 +1,80 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import env from "../util/validateEnv";
-import UserRepository from "../repositories/UserRepository";
+import {createUser, deleteUser, findUserByEmail, findUserById, getAllUsers, updateUser} from "../repositories/UserRepository";
 import { IUser } from "../models/User";
 
 
 const SECRET_KEY = env.SECRET_KEY || "default_secret_key";
 
-class UserService {
-  async registerUser(userData: Partial<IUser>): Promise<string> {
-    const existingUser = await UserRepository.findUserByEmail(userData.email!);
-    if (existingUser) throw new Error("Email already exists");
+class UserService {}
+ 
+export const registerUser = async (userData: Partial<IUser>): Promise<string> => {
+  const existingUser = await findUserByEmail(userData.email!);
+  if (existingUser) throw new Error("Email already exists");
 
-    userData.password = await bcrypt.hash(userData.password!, 10);
-    const user = await UserRepository.createUser(userData);
+  userData.password = await bcrypt.hash(userData.password!, 10);
+  const user = await createUser(userData);
 
-    return this.generateToken(user);
+  return generateToken(user);
+};
+
+export const loginUser = async (email: string, password: string): Promise<string> => {
+  const user = await findUserByEmail(email);
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    throw new Error("Invalid email or password");
   }
 
-  async loginUser(email: string, password: string): Promise<string> {
-    const user = await UserRepository.findUserByEmail(email);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new Error("Invalid email or password");
-    }
+  return generateToken(user);
+};
 
-    return this.generateToken(user);
-    
-  }// Get All Users
-  async getAllUsersService(){
+export const getAllUsersService = async () => {
   try {
-    const users = await UserRepository.getAllUsers();
-    return users;
+    return await getAllUsers();
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error("Service Error: " + error.message);
-    } else {
-      throw new Error("Service Error: An unknown error occurred");
-    }
+    const errorMessage = (error as Error).message;
+    throw new Error("Service Error: " + errorMessage);
   }
 };
 
-  private generateToken(user: IUser): string {
-    return jwt.sign({ id: user._id, email: user.email, role: user.userRole }, SECRET_KEY, { expiresIn: "1h" });
+// Get User by ID
+export const getUserByIdService = async (userId: string) => {
+  try {
+    const user = await findUserById(userId);
+    return user;
+  } catch (error) {
+    const errorMessage = (error as Error).message;
+    throw new Error("Service Error: " + errorMessage);
   }
-  
-}
+};
+// Update User
+export const updateUserService = async (userId: string, data: Partial<IUser>) => {
+  try {
+    const updatedUser = await updateUser(userId, data);
+    return updatedUser;
+  } catch (error) {
+    const errorMessage = (error as Error).message;
+    throw new Error("Service Error: " + errorMessage);
+  }
+};
 
-export default new UserService();
+// Delete User
+export const deleteUserService = async (userId: string) => {
+  try {
+    await deleteUser(userId);
+  } catch (error) {
+    const errorMessage = (error as Error).message;
+    throw new Error("Service Error: " + errorMessage);
+  }
+};
+
+
+export const generateToken = (user: IUser): string => {
+  return jwt.sign(
+    { id: user._id, email: user.email, role: user.userRole },
+    SECRET_KEY,
+    { expiresIn: "1h" }
+  );
+};
+  
+

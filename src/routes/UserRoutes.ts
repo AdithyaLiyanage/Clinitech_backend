@@ -1,6 +1,6 @@
 import express from "express";
-import UserController from "../controllers/UserController";
-import { authenticateJWT } from "../middleware/authMiddleware";
+import { createUser, deleteUser, getAllUsers, getUserById, login, updateUser } from "../controllers/UserController";
+import { authenticateJWT } from "../middleware/AuthMiddleware";
 
 const router = express.Router();
 
@@ -14,10 +14,23 @@ const isAdmin = (req: any, res: express.Response, next: express.NextFunction): v
   }
 };
 
-router.post("/register", UserController.register);
-router.post("/login", UserController.login);
+// Create User
+router.post("/create",createUser);
+
+// login User
+router.post("/login", login);
+
 // Get All Users
-router.get("/", authenticateJWT, isAdmin, UserController.getAllUsers);
+router.get("/", authenticateJWT, isAdmin, getAllUsers);
+
+// Get User by ID
+router.get("/:userId", authenticateJWT, getUserById);
+
+// Update User
+router.put("/:userId", authenticateJWT, isAdmin, updateUser);
+
+// Delete User
+router.delete("/:userId", authenticateJWT, isAdmin, deleteUser);
 
 // Protected Route Example
 router.get("/profile", authenticateJWT, (req: express.Request, res: express.Response) => {
