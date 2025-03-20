@@ -90,3 +90,7 @@ export const createSMSRecord = async (
 ): Promise<ISMS> => {
   return SMS.create({ patientId, billId, message });
 };
+
+export const getSMSMessages = async (patientId: string): Promise<ISMS[]> => {
+  return SMS.find({ patientId });
+};

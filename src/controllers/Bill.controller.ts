@@ -126,3 +126,17 @@ export const createSMSController = async (
     next(error);
   }
 };
+
+export const getSMSMessagesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { patientId } = req.params;
+    const smsMessages = await billService.getSMSMessages(patientId);
+    res.json({ success: true, data: smsMessages });
+  } catch (error) {
+    next(error);
+  }
+};
