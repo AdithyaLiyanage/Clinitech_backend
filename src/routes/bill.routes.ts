@@ -6,7 +6,8 @@ import {
   getPatientBill,
   getHospitalServices,
   getTreatments,
-  createSMSController
+  createSMSController,
+  getSMSMessagesController
 } from "../controllers/Bill.controller";
 
 const router = Router();
@@ -20,5 +21,6 @@ router.get("/hospitalservices", getHospitalServices);
 router.get("/treatments", getTreatments);
 
 router.post("/sms", createSMSController);
+router.get("/sms/:patientId", getSMSMessagesController);
 
 export default router;

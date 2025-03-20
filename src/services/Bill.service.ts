@@ -68,3 +68,7 @@ export const createSMSRecord = async (
 ): Promise<ISMS> => {
   return repository.createSMSRecord(patientId, billId, message);
 };
+
+export const getSMSMessages = async (patientId: string): Promise<ISMS[]> => {
+  return repository.getSMSMessages(patientId);
+};
