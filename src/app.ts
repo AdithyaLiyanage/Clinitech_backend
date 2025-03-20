@@ -1,6 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { errorHandler } from './middleware/errorHandler';
+import routes from './routes/routes';
 
 
 const app = express();
@@ -9,10 +11,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Simple route for the root URL
-app.get("/", (req, res) => {
-  res.send("Hello, World");
-});
+app.use('/api', routes);
+
+app.use(errorHandler);
 
 // Export the app
 
