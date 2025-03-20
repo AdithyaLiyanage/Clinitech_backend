@@ -1,6 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { errorHandler } from './middleware/errorHandler';
+import routes from './routes/bill.routes';
 import userRoutes from "./routes/UserRoutes";
 import patientRoutes from "./routes/PatientRoutes";
 import patientMedicalRoutes from "./routes/PatientMedicalRoutes";
@@ -13,11 +15,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Simple route for the root URL
-app.get("/", (req, res) => {
-  res.send("Hello, World");
-});
+app.use(errorHandler);
 
+app.use('/api/bills', routes);
 app.use("/api/users", userRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/patientsMedical", patientMedicalRoutes);
