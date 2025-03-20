@@ -1,4 +1,3 @@
-// src/repositories/test.ts
 import { IBill, Bill } from '../models/billModel';
 import { Patient } from '../models/patientModel';
 import mongoose from 'mongoose';
