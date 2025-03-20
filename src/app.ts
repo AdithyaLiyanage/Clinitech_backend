@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { errorHandler } from './middleware/errorHandler';
-import routes from './routes/routes';
+import routes from './routes/bill.routes';
 import userRoutes from "./routes/UserRoutes";
 import patientRoutes from "./routes/PatientRoutes";
 import patientMedicalRoutes from "./routes/PatientMedicalRoutes";
@@ -15,10 +15,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/api', routes);
-
 app.use(errorHandler);
 
+app.use('/api/bills', routes);
 app.use("/api/users", userRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/patientsMedical", patientMedicalRoutes);

@@ -1,5 +1,5 @@
 import { IBill, Bill } from '../models/billModel';
-import { Patient } from '../models/patientModel';
+import Patient from '../models/Patient';
 import mongoose from 'mongoose';
 
 export const findPatientById = async (id: string) => {
