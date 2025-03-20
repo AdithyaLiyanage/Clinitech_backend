@@ -7,10 +7,15 @@ export const findPatientById = async (id: string) => {
 };
 
 export const createBill = async (patientId: string, dailyAmount: number) => {
+  if (!mongoose.Types.ObjectId.isValid(patientId)) {
+    throw new Error("Invalid patientId");
+  }
+  
   const billData: Partial<IBill> = {
     patientId: new mongoose.Types.ObjectId(patientId),
     dailyAmount,
   };
+
   const bill = new Bill(billData);
   return bill.save();
 };

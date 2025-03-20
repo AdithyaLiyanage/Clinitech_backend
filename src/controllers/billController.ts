@@ -1,4 +1,3 @@
-// src/controllers/test.ts
 import { Request, Response, NextFunction } from 'express';
 import * as service from '../services/billService';
 
