@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {deleteUserService, getAllUsersService, getUserByIdService, loginUser, registerUser, updateUserService} from "../services/UserService";
+import User from "../models/User";
 
 class UserController {}
  // Create User
@@ -25,8 +26,8 @@ export const createUser = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const token = await loginUser(email, password);
-    res.status(200).json({ message: "Login successful", token });
+    const result = await loginUser(email, password);
+    res.status(200).json({ message: "Login successful", result});
   } catch (error: any) {
     res.status(401).json({ message: error instanceof Error ? error.message : "Invalid email or password" });
   }

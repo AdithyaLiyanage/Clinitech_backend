@@ -19,13 +19,13 @@ export const registerUser = async (userData: Partial<IUser>): Promise<string> =>
   return generateToken(user);
 };
 
-export const loginUser = async (email: string, password: string): Promise<string> => {
+export const loginUser = async (email: string, password: string): Promise<{ token: string; user: IUser; }> => {
   const user = await findUserByEmail(email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw new Error("Invalid email or password");
   }
-
-  return generateToken(user);
+  const token = generateToken(user);
+  return {token,user}
 };
 
 export const getAllUsersService = async () => {
