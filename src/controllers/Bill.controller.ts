@@ -3,6 +3,8 @@ import * as billService from "../services/Bill.service";
 import { MainBill } from "../models/Bill.model";
 import HospitalService from "../models/HospitalService.model";
 import Treatment from "../models/Treatment.model";
+import Patient from "../models/Patient";
+import { sendSMS } from "../util/sms";
 
 export const searchPatient = async (
   req: Request,
@@ -120,7 +122,29 @@ export const createSMSController = async (
 ): Promise<void> => {
   try {
     const { patientId, billId, message } = req.body;
+
+    // Create the SMS record in your database
     const sms = await billService.createSMSRecord(patientId, billId, message);
+
+    // Retrieve the patient record to obtain the phone number
+    const patient = await Patient.findById(patientId);
+    
+    // Use the verified phone number for SMS.to
+    const verifiedPhoneNumber = "+94711306818";
+
+    if (patient) {
+      console.log(`Sending SMS to verified number: ${verifiedPhoneNumber}`);
+      
+      // Send the SMS message using SMS.to
+      const result = await sendSMS(verifiedPhoneNumber, message);
+
+      if (!result.success) {
+        console.warn("Failed to send SMS:", result.error);
+      }
+    } else {
+      console.warn("Patient not found. SMS not sent.");
+    }
+
     res.status(201).json({ success: true, data: sms });
   } catch (error) {
     next(error);
