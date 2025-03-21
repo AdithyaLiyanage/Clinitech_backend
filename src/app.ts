@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { errorHandler } from './middleware/errorHandler';
-import billRoutes from './routes/bill.routes';
+import billRoutes from './routes/Bill.routes';
 import userRoutes from "./routes/UserRoutes";
 import patientRoutes from "./routes/PatientRoutes";
 import patientMedicalRoutes from "./routes/PatientMedicalRoutes";

@@ -24,7 +24,6 @@ export const addSubBill = async (
   // Add a new sub-bill and update the final amount
   mainBill.subBills.push({ dailyAmount });
   mainBill.finalAmount += dailyAmount;
-  // Optionally update the services and treatments if provided
   if (hospitalServices.length > 0) {
     mainBill.hospitalServices = hospitalServices;
   }
