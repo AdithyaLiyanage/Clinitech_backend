@@ -77,4 +77,3 @@ export const generateToken = (user: IUser): string => {
   );
 };
   
-
