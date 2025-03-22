@@ -16,7 +16,7 @@ const isDoctor = (req: any, res: express.Response, next: express.NextFunction): 
 router.post("/", authenticateJWT,isDoctor, controller.createPatientMedicalData);
 router.get("/", authenticateJWT,isDoctor, controller.getAllPatientMedicalData);
 router.get("/:patientID", authenticateJWT,isDoctor, controller.getPatientMedicalDataByPatientID);
-router.put("/:id", isDoctor, authenticateJWT,controller.updatePatientMedicalData);
-router.delete("/:id", isDoctor, authenticateJWT,controller.deletePatientMedicalData);
+router.put("/:id",authenticateJWT, isDoctor, controller.updatePatientMedicalData);
+router.delete("/:id",authenticateJWT, isDoctor,controller.deletePatientMedicalData);
 
 export default router;
