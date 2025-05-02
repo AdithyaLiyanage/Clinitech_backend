@@ -1,7 +1,11 @@
 
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import {deleteUserService, getAllUsersService, getUserByIdService, loginUser, registerUser, updateUserService} from "../services/UserService";
 import User from "../models/User";
+
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+
 
 class UserController {}
  // Create User

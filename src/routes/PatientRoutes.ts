@@ -15,7 +15,7 @@ const isAdmin = (req: any, res: express.Response, next: express.NextFunction): v
 
 // Admin-Only Routes for Managing Patients
 router.post("/patients", authenticate, isAdmin, PatientController.createPatient);
-router.get("/patients", authenticate, isAdmin, PatientController.getAllPatients);
+router.get("/",  PatientController.getAllPatients);
 router.get("/patients/:id", authenticate, isAdmin, PatientController.findPatientById);
 router.put("/patients/:id", authenticate, isAdmin, PatientController.updatePatient);
 router.delete("/patients/:id", authenticate, isAdmin, PatientController.deletePatient);

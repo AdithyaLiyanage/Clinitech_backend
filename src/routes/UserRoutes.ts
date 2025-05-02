@@ -1,5 +1,6 @@
 import express from "express";
 import { createUser, deleteUser, getAllUsers, getUserById, login, updateUser } from "../controllers/UserController";
+import jwt from "jsonwebtoken";
 import { authenticateJWT } from "../middleware/AuthMiddleware";
 
 const router = express.Router();
@@ -37,4 +38,6 @@ router.get("/profile", authenticateJWT, (req: express.Request, res: express.Resp
     const authReq = req as any; // Temporary fix
     res.json({ message: "User Profile", user: authReq.user });
   });
+
+
 export default router;
